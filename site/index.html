@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0b0b0f">
+  <meta name="description" content="AGENTROPOLIS-HERMES-ANDROID docs: Android mobile console for Hermes and Agentropolis. Install, releases, architecture, and CANARY status.">
+  <title>AGENTROPOLIS-HERMES-ANDROID — Docs</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="./">HERMES-<span class="accent">ANDROID</span></a>
+      <nav class="site-nav" aria-label="Site">
+        <ul>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#install">Install</a></li>
+          <li><a href="#releases">Releases</a></li>
+          <li><a href="#architecture">Architecture</a></li>
+          <li><a href="#status">Status</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <ul class="badges" aria-label="Project tags">
+        <li><span class="badge badge-red">AGENTROPOLIS</span></li>
+        <li><span class="badge badge-cyan">Hermes</span></li>
+        <li><span class="badge badge-pink">Status: CANARY</span></li>
+      </ul>
+      <h1 id="hero-title">AGENTROPOLIS HERMES <span class="accent">Android</span></h1>
+      <p class="lede">Android mobile console for Hermes and Agentropolis. Connects to self-hosted hermes-webui for
+        sessions, skills, memory, tasks, files, and operator approvals.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="https://github.com/AGENTROPOLIS-CITY-OF-AGENTS/AGENTROPOLIS-HERMES-ANDROID">View repository</a>
+        <a class="btn" href="#install">Install</a>
+      </div>
+      <div class="callout">
+        <p><strong>CANARY.</strong> Everything documented here is a canary lane. The phone is a supervision surface,
+          not the authority root. Do not grant broad credentials, wallet-signing authority, or production secrets to this surface.</p>
+      </div>
+    </section>
+
+    <section class="section" id="overview" aria-labelledby="overview-title">
+      <div class="wrap">
+        <h2 id="overview-title">Overview</h2>
+        <p>The Android application is a control and observation surface for Hermes runtimes. It must not become an
+          unbounded authority source merely because it can reach a Hermes runtime.</p>
+        <div class="grid grid-3">
+          <div class="card card-red">
+            <h3>Mission Control</h3>
+            <p>Approve, reject, pause, or revoke agent work; inspect mandates, capabilities, artifacts, and receipts.</p>
+          </div>
+          <div class="card card-cyan">
+            <h3>Read-only by default</h3>
+            <p>New runtime connections start read-only. Backend identity must match the registered identity; mismatches are rejected.</p>
+          </div>
+          <div class="card card-purple">
+            <h3>Receipts required</h3>
+            <p>Every mobile-triggered action must produce a correlated receipt. Consequential actions need signed, scoped, time-bounded approval.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="install" aria-labelledby="install-title">
+      <div class="wrap">
+        <h2 id="install-title">Install</h2>
+        <p>The repository ships a <strong>runtime adapter</strong> that wraps the community Android compatibility runtime
+          (Termux + Termux:X11 + Ubuntu PRoot + source-built Hermes Desktop) without copying its implementation into the
+          AGENTROPOLIS authority surface.</p>
+        <h3>From the Termux host shell</h3>
+<pre><code>bash runtime-adapters/hermes-desktop-android/install.sh</code></pre>
+        <h3>Verify the pinned release without installing</h3>
+<pre><code>bash runtime-adapters/hermes-desktop-android/install.sh --verify-only</code></pre>
+        <p>The wrapper downloads the upstream release installer and checksum, verifies the checksum, and passes the pinned
+          Hermes revision from <code>upstream.lock</code>. Upstream releases are not followed automatically.</p>
+        <div class="callout">
+          <p><strong>Security warning.</strong> The compatibility lane runs Electron with <code>--no-sandbox</code> inside a
+            root PRoot guest. Android still confines Termux as an application, but Chromium defense-in-depth is reduced.
+            Wireless ADB is a separate optional bridge: it is <em>not</em> enabled by the installer and remains behind a
+            short-lived explicit capability lease.</p>
+        </div>
+        <h3>Not granted by installation</h3>
+        <ul>
+          <li>unrestricted ADB</li>
+          <li>wallet access</li>
+          <li>production secrets</li>
+          <li>repository writes</li>
+          <li>deployment authority</li>
+          <li>permanent capabilities</li>
+        </ul>
+        <p>Details: <a href="https://github.com/AGENTROPOLIS-CITY-OF-AGENTS/AGENTROPOLIS-HERMES-ANDROID/blob/main/runtime-adapters/hermes-desktop-android/README.md">runtime-adapters/hermes-desktop-android/README.md</a>.</p>
+      </div>
+    </section>
+
+    <section class="section" id="releases" aria-labelledby="releases-title">
+      <div class="wrap">
+        <h2 id="releases-title">Releases</h2>
+        <div class="card card-pink">
+          <ul class="status-list">
+            <li><span class="label">App releases</span><span>None published. Check the <a href="https://github.com/AGENTROPOLIS-CITY-OF-AGENTS/AGENTROPOLIS-HERMES-ANDROID/releases">repository releases page</a>.</span></li>
+            <li><span class="label">Runtime baseline</span><span><code>NousResearch/hermes-agent@v2026.7.30</code></span></li>
+            <li><span class="label">Adapter upstream</span><span><code>Dadmin88/hermes-desktop-android@v0.1.1</code> (pinned in <code>upstream.lock</code>)</span></li>
+            <li><span class="label">Promotion gate</span><span>Canary-device report attached before promotion. Update <code>upstream.lock</code> only after reviewing the upstream diff, validating checksums, running adapter tests, and testing on a canary device.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="architecture" aria-labelledby="architecture-title">
+      <div class="wrap">
+        <h2 id="architecture-title">Architecture</h2>
+        <p>The adapter adds a local Android execution lane while preserving the rule that the phone is a supervision surface.</p>
+<pre aria-label="Authority flow diagram"><code>NEURO / HUMAN AUTHORITY
+          |
+          v
+AGENTROPOLIS HERMES ANDROID
+Mission Control + Approval + Receipts
+          |
+          v
+Mobile Capability Gateway
+          |
+          +-------------------+
+          |                   |
+          v                   v
+Remote Hermes lanes     Local Android lane
+Cloud / Claw workers    Termux + X11 + PRoot
+          |                   |
+          +---------+---------+
+                    v
+Identity -> Mandate -> Plan -> Execute -> Receipt -> Audit</code></pre>
+        <div class="grid grid-2">
+          <div class="card card-cyan">
+            <h3>AGENTROPOLIS EDGE</h3>
+            <p>Mobile and low-power execution profile. The phone controls the city without being required to run the city;
+              heavy inference and background swarms are routed away from the device unless a verified device profile permits them.</p>
+            <p><a href="https://github.com/AGENTROPOLIS-CITY-OF-AGENTS/AGENTROPOLIS-HERMES-ANDROID/blob/main/docs/AGENTROPOLIS-EDGE.md">docs/AGENTROPOLIS-EDGE.md</a></p>
+          </div>
+          <div class="card card-purple">
+            <h3>Buzz integration</h3>
+            <p>The console acts as the mobile Mission Control surface for Buzz-coordinated Hermes work: review task threads,
+              approve or revoke, and read receipts. The relay URL defines the active community; nothing crosses communities automatically.</p>
+            <p><a href="https://github.com/AGENTROPOLIS-CITY-OF-AGENTS/AGENTROPOLIS-HERMES-ANDROID/blob/main/docs/HERMES_BUZZ_MOBILE_INTEGRATION.md">docs/HERMES_BUZZ_MOBILE_INTEGRATION.md</a></p>
+          </div>
+        </div>
+        <h3>Policies</h3>
+        <ul>
+          <li><a href="https://github.com/AGENTROPOLIS-CITY-OF-AGENTS/AGENTROPOLIS-HERMES-ANDROID/blob/main/policies/mobile-authority.yaml"><code>policies/mobile-authority.yaml</code></a> — read-only default connection, capability leases with TTL, no permanent grants, wallet signing disabled.</li>
+          <li><a href="https://github.com/AGENTROPOLIS-CITY-OF-AGENTS/AGENTROPOLIS-HERMES-ANDROID/blob/main/policies/edge-runtime.yaml"><code>policies/edge-runtime.yaml</code></a> — EDGE runtime lanes.</li>
+        </ul>
+        <h3>More docs</h3>
+        <ul>
+          <li><a href="https://github.com/AGENTROPOLIS-CITY-OF-AGENTS/AGENTROPOLIS-HERMES-ANDROID/blob/main/docs/HERMES_DESKTOP_ANDROID_ADAPTER.md">Hermes Desktop Android Adapter Architecture</a></li>
+          <li><a href="https://github.com/AGENTROPOLIS-CITY-OF-AGENTS/AGENTROPOLIS-HERMES-ANDROID/blob/main/docs/HERMES_V2026_7_30_MOBILE_CONTROL_PROFILE.md">Hermes v2026.7.30 Mobile Control Profile</a></li>
+          <li><a href="https://github.com/AGENTROPOLIS-CITY-OF-AGENTS/AGENTROPOLIS-HERMES-ANDROID/tree/main/docs">All docs</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="status" aria-labelledby="status-title">
+      <div class="wrap">
+        <h2 id="status-title">Status</h2>
+        <div class="card card-red">
+          <ul class="status-list">
+            <li><span class="label">Overall</span><span><strong>CANARY</strong></span></li>
+            <li><span class="label">Mobile authority policy</span><span>canary</span></li>
+            <li><span class="label">Edge runtime policy</span><span>canary</span></li>
+            <li><span class="label">Adapter lane</span><span>CANARY — reduced sandbox (see security warning above)</span></li>
+            <li><span class="label">Android app source</span><span>Not published in this repository at this time</span></li>
+            <li><span class="label">CI</span><span>Adapter contract checks + ShellCheck on pull requests and <code>main</code></span></li>
+          </ul>
+        </div>
+        <h3>Acceptance gates before promotion</h3>
+        <ul>
+          <li>pinned upstream release and Hermes commit; checksum verification before install</li>
+          <li>backend identity displayed and verified; read-only first connection</li>
+          <li>no automatic ADB enablement</li>
+          <li>signed approval for writes, merges, publishing, and deployment</li>
+          <li>receipt correlation for every mobile-triggered action</li>
+          <li>stop, revoke, and quarantine tested; telemetry visible</li>
+          <li>canary-device report attached</li>
+        </ul>
+        <p class="muted">Mobile convenience may not weaken the same authority and evidence rules enforced by desktop Mission Control.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>AGENTROPOLIS-HERMES-ANDROID · Documentation only · Static site served from the <code>site/</code> directory.</p>
+      <ul>
+        <li><a href="https://github.com/AGENTROPOLIS-CITY-OF-AGENTS/AGENTROPOLIS-HERMES-ANDROID">Repository</a></li>
+        <li><a href="https://github.com/AGENTROPOLIS-CITY-OF-AGENTS/AGENTROPOLIS-HERMES-ANDROID/blob/main/LICENSE">License</a></li>
+        <li><a href="https://github.com/AGENTROPOLIS-CITY-OF-AGENTS">Organization</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>
