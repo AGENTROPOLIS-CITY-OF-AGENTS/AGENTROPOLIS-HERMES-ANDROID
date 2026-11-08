@@ -1,2 +1,2 @@
 # AGENTROPOLIS-HERMES-ANDROID
-Android mobile console for Hermes and Agentropolis. Connects to self-hosted hermes-webui for sessions, skills, memory, tasks, files, and operator approvals.
+Android mobile console for Hermes and Agentropolis. Status: CANARY. Designed to reach a self-hosted hermes-webui for sessions, skills, memory, tasks, files, and operator approvals through the pinned upstream adapter (Dadmin88/hermes-desktop-android v0.1.1, see runtime-adapters/hermes-desktop-android/). No hermes-webui client code lives in this repository, no app release is published, and no live connection is verified here. See docs/HERMES_DESKTOP_ANDROID_ADAPTER.md and site/index.html.
